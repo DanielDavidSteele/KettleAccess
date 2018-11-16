@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".HomeFragment"
+    android:background="@color/background">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.akaita.android.circularseekbar.CircularSeekBar
+            android:id="@+id/seekBar"
+            android:layout_width="317dp"
+            android:layout_height="346dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="56dp"
+            app:enabled="true"
+            app:innerCircleColor="@color/background"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:max="100"
+            app:min="0"
+            app:progress="0"
+            app:progressTextColor="#EEEEEE"
+            app:progressTextSize="26"
+            app:ringColor="@color/colorAccent"
+            app:ringWidth="0.4"
+            app:showIndicator="true"
+            app:showInnerCircle="true"
+            app:showProgressText="true"
+            app:speedMultiplier="10" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="175dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:background="#7e7e7e"
+            android:text="@string/kettleString"
+            android:textColor="@android:color/background_light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+    </android.support.constraint.ConstraintLayout>
+</FrameLayout>

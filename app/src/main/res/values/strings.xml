@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">KettleAccess</string>
+    <string name="action_settings">Settings</string>
+    <string name="TemperatureControl">Home</string>
+    <string name="BeanSelection">Beans</string>
+    <string name="Settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="kettleString">Start Kettle</string>
+</resources>

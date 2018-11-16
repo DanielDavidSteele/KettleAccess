@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:layout_marginTop="10dp">
+    
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:src="@drawable/ic_free_breakfast_white_24dp"
+        android:id="@+id/img_bean"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/name_bean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/bean_and_desc_padding_horizontal"
+            android:paddingTop="@dimen/bean_top_padding"
+            android:paddingBottom="@dimen/bean_bottom_padding"
+            android:text="Bean Name"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/bean_and_desc_text_size"/>
+
+        <TextView
+            android:id="@+id/origin_bean"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="@dimen/bean_and_desc_padding_horizontal"
+            android:paddingTop="@dimen/desc_top_padding"
+            android:paddingBottom="@dimen/desc_bottom_padding"
+            android:text="Origin Here"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/bean_and_desc_text_size"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="end">
+
+        <TextView
+            android:id="@+id/temp_bean"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginHorizontal="30dp"
+            android:text="10"
+            android:textStyle="italic"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/temp_text_size"/>
+
+        <ImageView
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/ic_add_white_24dp" />
+    </LinearLayout>
+
+</LinearLayout>
