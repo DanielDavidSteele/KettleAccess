@@ -6,15 +6,18 @@ public class Bean {
     private String Origin;
     private int Temp;
     private String Description;
+    private int Image;
 
     public Bean() {
     }
 
-    public Bean(String name, String origin, int temp, String description){
+    public Bean(String name, String origin, int temp, String description, int image){
         Name = name;
         Origin = origin;
         Temp = temp;
         Description = description;
+        Image = image;
+
     }
 
     //Getter
@@ -36,6 +39,10 @@ public class Bean {
         return Description;
     }
 
+    public int getImage(){
+        return Image;
+    }
+
     //Setter
 
 
@@ -53,5 +60,9 @@ public class Bean {
 
     public void setDescription(String description){
         Description = description;
+    }
+
+    public void setImage (int image){
+        Image = image;
     }
 }

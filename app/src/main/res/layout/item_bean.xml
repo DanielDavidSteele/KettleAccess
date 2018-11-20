@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:layout_marginTop="10dp">
+    android:layout_marginTop="10dp"
+    android:id="@+id/bean_item">
     
     <ImageView
         android:layout_width="56dp"
@@ -62,11 +63,7 @@
             android:textColor="@android:color/white"
             android:textSize="@dimen/temp_text_size"/>
 
-        <ImageView
-            android:layout_width="45dp"
-            android:layout_height="45dp"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_add_white_24dp" />
+
     </LinearLayout>
 
 </LinearLayout>

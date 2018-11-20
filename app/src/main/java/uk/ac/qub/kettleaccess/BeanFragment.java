@@ -43,7 +43,7 @@ public class BeanFragment extends Fragment {
         //loop for time-saving while building
 
         for(int count = 0; count <25; count ++){
-            lstBean.add(new Bean("True and Honest", "El Salvador", 94, null));
+            lstBean.add(new Bean("True and Honest", "El Salvador", 94, "This is a bean description", R.drawable.el_salvador));
         }
 
 
