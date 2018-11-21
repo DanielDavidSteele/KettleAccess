@@ -2,17 +2,25 @@ package uk.ac.qub.kettleaccess;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +33,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     Context mContext;
     List<Bean> mData;
     Dialog myDialog;
+    Fragment mFragment;
 
-    public RecyclerViewAdapter(Context mContext, List<Bean> mData) {
+    public RecyclerViewAdapter(Context mContext, List<Bean> mData, Fragment fragment) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mFragment = fragment;
     }
 
 
@@ -57,12 +67,29 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 dialog_origin_tv.setText(mData.get(vHolder.getAdapterPosition()).getOrigin());
                 dialog_bean_img.setImageResource(mData.get(vHolder.getAdapterPosition()).getImage());
                 dialog_desc_tv.setText(mData.get(vHolder.getAdapterPosition()).getDescription());
+                Button useBean = (Button) myDialog.findViewById(R.id.dialog_btn);
+                useBean.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((MainActivity)mFragment.getActivity()).test = mData.get(vHolder.getAdapterPosition()).getTemp();
+                        ((MainActivity)mFragment.getActivity()).useTemp = true;
+                        Log.d("DEBUG", "Test = "+((MainActivity)mFragment.getActivity()).test);
+                        HomeFragment frag = new HomeFragment();
+                        ((MainActivity)mFragment.getActivity()).loadFragment(frag);
+                        myDialog.dismiss();
+                    }
+                });
                 myDialog.show();
             }
         });
 
+
+
+
         return vHolder;
     }
+
+
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
@@ -80,6 +107,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData.size();
     }
 
+
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         private LinearLayout item_bean;
@@ -88,6 +116,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         private TextView tv_desc;
         private TextView tv_temp;
         private ImageView img;
+
 
         public MyViewHolder(View itemView){
             super(itemView);
@@ -99,5 +128,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             img = (ImageView) itemView.findViewById(R.id.img_bean);
 
         }
+
     }
 }

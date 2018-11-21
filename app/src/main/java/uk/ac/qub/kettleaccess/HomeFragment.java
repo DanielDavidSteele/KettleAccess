@@ -1,5 +1,6 @@
 package uk.ac.qub.kettleaccess;
 
+import android.arch.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -28,6 +29,9 @@ import java.text.DecimalFormat;
 
 public class HomeFragment extends Fragment {
 
+    String name;
+    String origin;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +48,7 @@ public class HomeFragment extends Fragment {
         seekBar.setProgressTextFormat(new DecimalFormat("###,###,##0°C"));
         seekBar.setRingColor(Color.GREEN);
 
+
         seekBar.setOnCenterClickedListener(new CircularSeekBar.OnCenterClickedListener() {
             @Override
             public void onCenterClicked(CircularSeekBar seekBar, float progress) {
@@ -53,18 +58,18 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        if (((MainActivity)getActivity()).useTemp){
+            seekBar.setProgress(((MainActivity)getActivity()).test);
+            setColour(seekBar, (int)seekBar.getProgress());
+        }
+
         seekBar.setOnCircularSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
             @Override
             public void onProgressChanged(CircularSeekBar seekBar, float progress, boolean fromUser) {
 
-                int red = 0, green = 0, blue = 0;
+                ((MainActivity)getActivity()).useTemp = false;
+                setColour(seekBar, (int)progress);
 
-                red = (progress < 25) ? ((int) (2.55f * (4f * progress))) : (255);
-                green = (progress < 25) ? (255) : 255 - (int) (255f * ((progress - 25f) / 75f));
-
-                Paint colour = new Paint();
-                colour.setARGB(255, red, green, blue);
-                seekBar.setRingColor(colour.getColor());
             }
             @Override
             public void onStartTrackingTouch(CircularSeekBar seekBar) {
@@ -85,33 +90,65 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
 
 
-                int intProgress = Math.round(seekBar.getProgress());
-                Log.d("DEBUG","seekBar float: " + seekBar.getProgress() + ", seekBar int: " + intProgress);
-
-                String url = ("http://10.6.1.143:8080?t="+intProgress);
 
 
-                StringRequest stringRequest;
-                stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response) {
-                        System.out.println(response);
-                    }},
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error){
-                                System.out.println("It didn't work");
+                AlertDialog builder = new AlertDialog.Builder(getContext()).create();
+                builder.setTitle("Alert");
+                builder.setMessage("The kettle will boil at "+String.format("%.0f",seekBar.getProgress()) +"°C");
+                builder.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                int intProgress = Math.round(seekBar.getProgress());
+                                Log.d("DEBUG","seekBar float: " + seekBar.getProgress() + ", seekBar int: " + intProgress);
+
+                                String url = ("http://10.6.1.143:8080?t="+intProgress);
+
+
+                                StringRequest stringRequest;
+                                stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+                                    @Override
+                                    public void onResponse(String response) {
+                                        System.out.println(response);
+                                    }},
+                                        new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error){
+                                                System.out.println("It didn't work");
+                                            }
+
+                                        });
+
+                                queue.add(stringRequest);
+
+                                dialog.dismiss();
                             }
-
                         });
-
-                queue.add(stringRequest);
+                builder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                builder.show();
 
 
             }
         });
 
         return rootView;
+    }
+
+    private void setColour(CircularSeekBar seekBar, int progress) {
+        int red, green, blue = 0;
+
+        red = (progress < 25) ? ((int) (2.55f * (4f * progress))) : (255);
+        green = (progress < 25) ? (255) : 255 - (int) (255f * ((progress - 25f) / 75f));
+
+        Paint colour = new Paint();
+        colour.setARGB(255, red, green, blue);
+        seekBar.setRingColor(colour.getColor());
     }
 }
 
