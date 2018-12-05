@@ -8,4 +8,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="kettleString">Start Kettle</string>
+    <string name="theme_selector">Theme (Dark/Light)</string>
+    <string name="temperature_selector">Temperature (C°/ F°)</string>
 </resources>
