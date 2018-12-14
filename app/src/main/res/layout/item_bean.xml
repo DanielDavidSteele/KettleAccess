@@ -7,8 +7,7 @@
     android:layout_height="wrap_content"
     android:padding="16dp"
     android:layout_marginTop="10dp"
-    android:id="@+id/bean_item"
-    android:background="@color/background">
+    android:id="@+id/bean_item">
     
     <ImageView
         android:layout_width="56dp"
@@ -31,7 +30,6 @@
             android:paddingBottom="@dimen/bean_bottom_padding"
             android:text="Bean Name"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/bean_and_desc_text_size"/>
 
         <TextView
@@ -42,7 +40,6 @@
             android:paddingTop="@dimen/desc_top_padding"
             android:paddingBottom="@dimen/desc_bottom_padding"
             android:text="Origin Here"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/bean_and_desc_text_size"/>
 
 
@@ -61,7 +58,6 @@
             android:layout_marginHorizontal="30dp"
             android:text="10"
             android:textStyle="italic"
-            android:textColor="@android:color/white"
             android:textSize="@dimen/temp_text_size"/>
 
 

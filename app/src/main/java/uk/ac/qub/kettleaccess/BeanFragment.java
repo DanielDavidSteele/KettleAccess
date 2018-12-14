@@ -13,13 +13,14 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Public class BeanFragment extends the functionality of the
@@ -87,23 +88,75 @@ public class BeanFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = ("http://10.6.1.143/get.php");
+        String url = ("http://10.6.1.111/get.php");
+
+            final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+
+                        Bean bean = new Bean();
+
+
+                        System.out.println(response);
+
+                        try {
+                            response.getString("name");
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+
+                    }
+                });
+
+
+
+        queue.add(jsonObjectRequest);
+
+        //Instantiation of the list of bean objects
+
+       lstBean = new ArrayList<>();
+
+        //loop for time-saving while building
+
+        for(int count = 0; count < 100; count ++){
+            lstBean.add(new Bean("Bleh", "El Salvador", count, "This is a bean description", R.drawable.el_salvador));
+        }
+
+    }
+}
+
+
+
+
+
+        /*
+
         final Map<String, String> map = new HashMap<String, String>();
         StringRequest stringRequest;
         stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                System.out.println(response);
-                /*String[] responses = response.split("#");
+
+               String[] responses = response.split("#");
                 int i = 0;
                 for(String str:responses) {
                     //String cut = str.substring(6, str.length()-2);
                     map.put("Name"+i, str);
                     System.out.println(map.get("Name"));
-                }*/
+                }
                 System.out.println(response);
 
 
@@ -116,24 +169,6 @@ public class BeanFragment extends Fragment {
                     }
                 });
         queue.add(stringRequest);
-
-
-        //Instantiation of the list of bean objects
-
-       lstBean = new ArrayList<>();
-
-        //loop for time-saving while building
-
-        for(int count = 0; count < 100; count ++){
-            lstBean.add(new Bean("Frank and Honest", "El Salvador", count, "This is a bean description", R.drawable.el_salvador));
-        }
-
-    }
-}
-
-
-
-
-
+*/
 
 

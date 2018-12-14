@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 
 public class SettingsFragment extends Fragment {
 
+    Fragment mFragment;
+
     public SettingsFragment() {
         // Required empty public constructor
     }
@@ -19,8 +21,17 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+
+        final View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
+
+
+
+        return rootView;
+
     }
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
