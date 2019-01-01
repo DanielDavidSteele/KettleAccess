@@ -7,6 +7,14 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +24,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        final RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+
+        /*String url = ("http://192.168.0.25:8080");
+        StringRequest stringRequest;
+        stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                System.out.println("Kettle Working...");
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), "No Connections to Kettle", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        queue.add(stringRequest);*/
+
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);

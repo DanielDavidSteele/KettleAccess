@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.akaita.android.circularseekbar.CircularSeekBar;
 import com.android.volley.Request;
@@ -31,9 +32,11 @@ public class HomeFragment extends Fragment {
 
     String name;
     String origin;
+    public boolean tempFlag;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
@@ -45,7 +48,14 @@ public class HomeFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         final CircularSeekBar seekBar = (CircularSeekBar) rootView.findViewById(R.id.seekBar);
-        seekBar.setProgressTextFormat(new DecimalFormat("###,###,##0°C"));
+
+        if(tempFlag){
+            seekBar.setProgressTextFormat(new DecimalFormat("###,###,##0°F"));
+        } else {
+            seekBar.setProgressTextFormat(new DecimalFormat("###,###,##0°C"));
+        }
+
+
         seekBar.setRingColor(Color.GREEN);
 
 
@@ -102,7 +112,7 @@ public class HomeFragment extends Fragment {
                                 int intProgress = Math.round(seekBar.getProgress());
                                 Log.d("DEBUG","seekBar float: " + seekBar.getProgress() + ", seekBar int: " + intProgress);
 
-                                String url = ("http://10.6.1.143:8080?t="+intProgress);
+                                String url = ("http://192.168.0.25:8080?d="+intProgress);
 
 
                                 StringRequest stringRequest;
