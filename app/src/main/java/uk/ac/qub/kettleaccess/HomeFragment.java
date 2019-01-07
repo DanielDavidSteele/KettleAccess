@@ -1,11 +1,8 @@
 package uk.ac.qub.kettleaccess;
 
-import android.arch.lifecycle.ViewModelProvider;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -15,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.akaita.android.circularseekbar.CircularSeekBar;
 import com.android.volley.Request;
@@ -112,7 +108,7 @@ public class HomeFragment extends Fragment {
                                 int intProgress = Math.round(seekBar.getProgress());
                                 Log.d("DEBUG","seekBar float: " + seekBar.getProgress() + ", seekBar int: " + intProgress);
 
-                                String url = ("http://192.168.0.25:8080?d="+intProgress);
+                                String url = ("http://10.6.1.105:8080?d="+intProgress);
 
 
                                 StringRequest stringRequest;

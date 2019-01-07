@@ -1,5 +1,7 @@
 package uk.ac.qub.kettleaccess;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Class to define the parameters of the object "Bean"
  */
@@ -11,10 +13,19 @@ public class Bean {
      * as the parameters of the bean object
      */
 
+    @SerializedName("name")
     private String Name;
+
+    @SerializedName("origin")
     private String Origin;
+
+    @SerializedName("temp")
     private int Temp;
+
+    @SerializedName("desc")
     private String Description;
+
+    @SerializedName("flag")
     private int Image;
 
 
@@ -38,11 +49,11 @@ public class Bean {
      */
 
     public Bean(String name, String origin, int temp, String description, int image){
-        Name = name;
-        Origin = origin;
-        Temp = temp;
-        Description = description;
-        Image = image;
+        this.Name = name;
+        this.Origin = origin;
+        this.Temp = temp;
+        this.Description = description;
+        this.Image = image;
 
     }
 
