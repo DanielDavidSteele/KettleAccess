@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     public int test;
     public boolean useTemp = false;
-
+    public boolean changeTemp = false;
 
 
     @Override

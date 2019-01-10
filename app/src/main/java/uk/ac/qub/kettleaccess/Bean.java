@@ -19,6 +19,9 @@ public class Bean {
     @SerializedName("origin")
     private String Origin;
 
+    @SerializedName("origins")
+    private String[] Origins;
+
     @SerializedName("temp")
     private int Temp;
 
@@ -45,15 +48,33 @@ public class Bean {
      * @param origin
      * @param temp
      * @param description
-     * @param image
      */
 
-    public Bean(String name, String origin, int temp, String description, int image){
+    public Bean(String name, String origin, int temp, String description){
         this.Name = name;
         this.Origin = origin;
         this.Temp = temp;
         this.Description = description;
-        this.Image = image;
+
+    }
+
+    /**
+     * Constructor used to pass the parameters of the bean
+     * object to other classes in the project
+     *
+     * @param name
+     * @param origin
+     * @param origins
+     * @param temp
+     * @param description
+     */
+
+    public Bean(String name, String origin, String[] origins, int temp, String description){
+        this.Name = name;
+        this.Origin = origin;
+        this.Origins = origins;
+        this.Temp = temp;
+        this.Description = description;
 
     }
 
@@ -73,6 +94,15 @@ public class Bean {
 
     public String getOrigin() {
         return Origin;
+    }
+
+    /**
+     * Getter for the origins parameter
+     * @return
+     */
+
+    public String[] getOrigins() {
+        return Origins;
     }
 
     /**
@@ -119,6 +149,15 @@ public class Bean {
 
     public void setOrigin(String origin) {
         Origin = origin;
+    }
+
+    /**
+     * Setter for the origins parameter
+     * @param origins
+     */
+
+    public void setOrigins(String[] origins) {
+        Origins = origins;
     }
 
     /**

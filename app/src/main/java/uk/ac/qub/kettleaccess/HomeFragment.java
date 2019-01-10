@@ -29,6 +29,8 @@ public class HomeFragment extends Fragment {
     String name;
     String origin;
     public boolean tempFlag;
+    public boolean tempValue = false;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,103 +47,215 @@ public class HomeFragment extends Fragment {
 
         final CircularSeekBar seekBar = (CircularSeekBar) rootView.findViewById(R.id.seekBar);
 
-        if(tempFlag){
-            seekBar.setProgressTextFormat(new DecimalFormat("###,###,##0°F"));
+        tempValue = ((MainActivity)getActivity()).changeTemp;
+
+        /*
+        FAHRENHEIT SEEKBAR
+         */
+        if(tempValue){
+            seekBar.setProgressTextFormat(new DecimalFormat("0°F"));
+
+            seekBar.setMin(32);
+            seekBar.setMax(212);
+            seekBar.setProgress(32);
+            seekBar.setRingColor(Color.GREEN);
+
+
+            seekBar.setOnCenterClickedListener(new CircularSeekBar.OnCenterClickedListener() {
+                @Override
+                public void onCenterClicked(CircularSeekBar seekBar, float progress) {
+                    Snackbar.make(seekBar, "Reset", Snackbar.LENGTH_SHORT)
+                            .show();
+                    seekBar.setProgress(32);
+                }
+            });
+
+            if (((MainActivity)getActivity()).useTemp){
+                int fTemp = (((MainActivity)getActivity()).test);
+                seekBar.setProgress(
+                        ((fTemp)*9/5)+32
+                );
+                setColour(seekBar, (int)((seekBar.getProgress()-32)*5/9));
+            }
+
+            seekBar.setOnCircularSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(CircularSeekBar seekBar, float progress, boolean fromUser) {
+
+                    ((MainActivity)getActivity()).useTemp = false;
+                    setColour(seekBar, (int)((progress-32)*5/9));
+
+                }
+                @Override
+                public void onStartTrackingTouch(CircularSeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(CircularSeekBar seekBar) {
+
+                }
+
+            });
+
+            final RequestQueue queue = Volley.newRequestQueue(getContext());
+            Button btn = (Button) rootView.findViewById(R.id.button);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+
+
+                    AlertDialog builder = new AlertDialog.Builder(getContext()).create();
+                    builder.setTitle("Alert");
+                    builder.setMessage("The kettle will boil at "+String.format("%.0f",seekBar.getProgress()) +"°C");
+                    builder.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    int intProgress = Math.round(seekBar.getProgress());
+                                    Log.d("DEBUG","seekBar float: " + ((seekBar.getProgress()-32)*5/9) + ", seekBar int: " + intProgress);
+
+                                    String url = ("http://10.6.1.83:8080?d="+((intProgress-32)*5/9));
+
+
+                                    StringRequest stringRequest;
+                                    stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+                                        @Override
+                                        public void onResponse(String response) {
+                                            System.out.println(response);
+                                        }},
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error){
+                                                    System.out.println("It didn't work");
+                                                }
+
+                                            });
+
+                                    queue.add(stringRequest);
+
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.show();
+
+
+                }
+            });
+
+
+
+        /*
+        CELSIUS SEEKBAR
+         */
         } else {
-            seekBar.setProgressTextFormat(new DecimalFormat("###,###,##0°C"));
+            seekBar.setProgressTextFormat(new DecimalFormat("0°C"));
+
+            seekBar.setRingColor(Color.GREEN);
+
+
+            seekBar.setOnCenterClickedListener(new CircularSeekBar.OnCenterClickedListener() {
+                @Override
+                public void onCenterClicked(CircularSeekBar seekBar, float progress) {
+                    Snackbar.make(seekBar, "Reset", Snackbar.LENGTH_SHORT)
+                            .show();
+                    seekBar.setProgress(0);
+                }
+            });
+
+            if (((MainActivity)getActivity()).useTemp){
+                seekBar.setProgress(((MainActivity)getActivity()).test);
+                setColour(seekBar, (int)seekBar.getProgress());
+            }
+
+            seekBar.setOnCircularSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(CircularSeekBar seekBar, float progress, boolean fromUser) {
+
+                    ((MainActivity)getActivity()).useTemp = false;
+                    setColour(seekBar, (int)progress);
+
+                }
+                @Override
+                public void onStartTrackingTouch(CircularSeekBar seekBar) {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(CircularSeekBar seekBar) {
+
+                }
+            });
+
+
+            final RequestQueue queue = Volley.newRequestQueue(getContext());
+            Button btn = (Button) rootView.findViewById(R.id.button);
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+
+
+
+                    AlertDialog builder = new AlertDialog.Builder(getContext()).create();
+                    builder.setTitle("Alert");
+                    builder.setMessage("The kettle will boil at "+String.format("%.0f",seekBar.getProgress()) +"°C");
+                    builder.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    int intProgress = Math.round(seekBar.getProgress());
+                                    Log.d("DEBUG","seekBar float: " + seekBar.getProgress() + ", seekBar int: " + intProgress);
+
+                                    String url = ("http://10.6.1.83:8080?d="+intProgress);
+
+
+                                    StringRequest stringRequest;
+                                    stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
+                                        @Override
+                                        public void onResponse(String response) {
+                                            System.out.println(response);
+                                        }},
+                                            new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error){
+                                                    System.out.println("It didn't work");
+                                                }
+
+                                            });
+
+                                    queue.add(stringRequest);
+
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    builder.show();
+
+
+                }
+            });
+
         }
 
 
-        seekBar.setRingColor(Color.GREEN);
 
 
-        seekBar.setOnCenterClickedListener(new CircularSeekBar.OnCenterClickedListener() {
-            @Override
-            public void onCenterClicked(CircularSeekBar seekBar, float progress) {
-                Snackbar.make(seekBar, "Reset", Snackbar.LENGTH_SHORT)
-                        .show();
-                seekBar.setProgress(0);
-            }
-        });
-
-        if (((MainActivity)getActivity()).useTemp){
-            seekBar.setProgress(((MainActivity)getActivity()).test);
-            setColour(seekBar, (int)seekBar.getProgress());
-        }
-
-        seekBar.setOnCircularSeekBarChangeListener(new CircularSeekBar.OnCircularSeekBarChangeListener() {
-            @Override
-            public void onProgressChanged(CircularSeekBar seekBar, float progress, boolean fromUser) {
-
-                ((MainActivity)getActivity()).useTemp = false;
-                setColour(seekBar, (int)progress);
-
-            }
-            @Override
-            public void onStartTrackingTouch(CircularSeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(CircularSeekBar seekBar) {
-
-            }
-        });
-
-
-        final RequestQueue queue = Volley.newRequestQueue(getContext());
-        Button btn = (Button) rootView.findViewById(R.id.button);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-
-
-                AlertDialog builder = new AlertDialog.Builder(getContext()).create();
-                builder.setTitle("Alert");
-                builder.setMessage("The kettle will boil at "+String.format("%.0f",seekBar.getProgress()) +"°C");
-                builder.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                int intProgress = Math.round(seekBar.getProgress());
-                                Log.d("DEBUG","seekBar float: " + seekBar.getProgress() + ", seekBar int: " + intProgress);
-
-                                String url = ("http://10.6.1.105:8080?d="+intProgress);
-
-
-                                StringRequest stringRequest;
-                                stringRequest = new StringRequest(Request.Method.GET, url, new Response.Listener<String>(){
-                                    @Override
-                                    public void onResponse(String response) {
-                                        System.out.println(response);
-                                    }},
-                                        new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error){
-                                                System.out.println("It didn't work");
-                                            }
-
-                                        });
-
-                                queue.add(stringRequest);
-
-                                dialog.dismiss();
-                            }
-                        });
-                builder.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                builder.show();
-
-
-            }
-        });
 
         return rootView;
     }

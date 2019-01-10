@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -97,7 +98,7 @@ public class BeanFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         final RequestQueue queue = Volley.newRequestQueue(getContext());
-        String url = ("http://10.6.1.89/get.php");
+        String url = ("http://10.6.1.83/get.php");
 
         final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null,
@@ -110,13 +111,16 @@ public class BeanFragment extends Fragment {
                                     JSONArray array = jsonObject.getJSONArray("beans");
                                     for (int i = 0; i < array.length(); i++){
                                         JSONObject beanItem = array.getJSONObject(i);
+                                        String[] origins = beanItem.getString("origin").replace("[","").replace("]","").replace("\"","").split(",");
                                         bean = new Bean(
                                                 beanItem.getString("name"),
-                                                beanItem.getString("origin"),
+                                                origins[0],
+                                                origins,
                                                 beanItem.getInt("temp"),
-                                                beanItem.getString("desc"),
-                                                beanItem.getInt("flag"));
+                                                beanItem.getString("desc"));
                                         lstBean.add(bean);
+                                        Log.d("BEAN","bean origin: " + bean.getOrigin());
+                                        Log.d("BEAN","bean origins: " + bean.getOrigins());
                                     }
 
 
