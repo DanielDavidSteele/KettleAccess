@@ -47,11 +47,11 @@ public class HomeFragment extends Fragment {
 
         final CircularSeekBar seekBar = (CircularSeekBar) rootView.findViewById(R.id.seekBar);
 
-        tempValue = ((MainActivity)getActivity()).changeTemp;
+        //tempValue = ((MainActivity)getActivity()).changeTemp;
 
         /*
         FAHRENHEIT SEEKBAR
-         */
+
         if(tempValue){
             seekBar.setProgressTextFormat(new DecimalFormat("0°F"));
 
@@ -154,10 +154,11 @@ public class HomeFragment extends Fragment {
 
 
 
-        /*
+
         CELSIUS SEEKBAR
-         */
-        } else {
+
+        } else {   }  */
+
             seekBar.setProgressTextFormat(new DecimalFormat("0°C"));
 
             seekBar.setRingColor(Color.GREEN);
@@ -251,7 +252,7 @@ public class HomeFragment extends Fragment {
                 }
             });
 
-        }
+
 
 
 
@@ -263,7 +264,7 @@ public class HomeFragment extends Fragment {
     private void setColour(CircularSeekBar seekBar, int progress) {
         int red, green, blue = 0;
 
-        red = (progress < 25) ? ((int) (2.55f * (4f * progress))) : (255);
+        red = (progress < 25) ? (int) ((2.55 * (4 * progress))) : (255);
         green = (progress < 25) ? (255) : 255 - (int) (255f * ((progress - 25f) / 75f));
 
         Paint colour = new Paint();

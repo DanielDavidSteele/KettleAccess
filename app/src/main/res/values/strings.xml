@@ -10,4 +10,5 @@
     <string name="kettleString">Start Kettle</string>
     <string name="theme_selector">Theme (Dark/Light)</string>
     <string name="temperature_selector">Temperature (C°/ F°)</string>
+    <string name="app_info">Application Info</string>
 </resources>
